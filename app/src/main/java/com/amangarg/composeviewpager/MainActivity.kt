@@ -3,41 +3,35 @@ package com.amangarg.composeviewpager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.amangarg.composeviewpager.ui.theme.ComposeViewPagerTheme
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.rememberPagerState
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalPagerApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeViewPagerTheme {
                 // A surface container using the 'background' color from the theme
+                val pagerState = rememberPagerState()
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Greeting("Android")
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        TabLayout(
+                            modifier = Modifier,
+                            listOf("First", "Second", "Third"),
+                            pagerState
+                        )
+                        TabContent(modifier = Modifier, pagerState = pagerState, size = 3)
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ComposeViewPagerTheme {
-        Greeting("Android")
     }
 }
